@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	function alert_me()
+	{
+		var s=document.getElementById("budget").value;
+		$.ajax({
+			  url: "ExpenseServlet",
+			  data: {budget : s},
+			  success: function(data) {
+			  	alert(data);
+			  	document.getElementById("response").innerHTML=data;
+			  }
+			});
+	}
+</script>
+</head>
+<body>
+
+<br>
+Enter the financial goal(monthly budget): 
+  <input type= "number" name="budget" id="budget"/>
+  <input type= "button" value="click me" onClick="alert_me()"/>
+	<div id="response"></div>
+
+</body>
+</html>
