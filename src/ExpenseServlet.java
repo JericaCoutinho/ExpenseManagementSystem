@@ -54,7 +54,7 @@ public class ExpenseServlet extends HttpServlet {
 			preparedStmt.execute();
 			ResultSet resultSet = preparedStmt.getResultSet();  //gets the result set
 			boolean recordfound= resultSet.next();
-			if(recordfound)sdsdsd
+			if(recordfound)
 			{
 				String query1 = "update into Budget (username, budget) values(?,?)";
 				PreparedStatement preparedStmt2= conn.prepareStatement(query1);
