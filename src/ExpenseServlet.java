@@ -57,7 +57,7 @@ public class ExpenseServlet extends HttpServlet {
 			
 			if(recordfound)
 			{
-				String query1 = "update into Budget (username, budget) values(?,?)";
+				String query1 = "update Budget set username=?, budget=?";
 				PreparedStatement preparedStmt2= conn.prepareStatement(query1);
 				preparedStmt2.setString(1, Uname);
 				preparedStmt2.setString(2, Bgoal);
