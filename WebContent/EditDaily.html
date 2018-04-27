@@ -2,12 +2,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Financial goal
-</title><script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<title>Daily Expense</title>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"
+	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+	crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
+  <link href='css/financialGoal.css' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-<link href='css/financialGoal.css' rel='stylesheet' type='text/css'>
-
-	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
 
@@ -29,23 +32,60 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/themify-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="bgimage.css"  />
+
 <script>
-function alert_me()
-{
-	var s = document.getElementById("budget").value;
-	var d = document.getElementById("username").value;
-	$.ajax({
-		url:"ExpenseServlet",
-	    data:{"budget" : s,"Uname" : d},
-		type: "post",
-		success: function(data)
-		        {
-					alert("Successfully goal is set!");
-		        	
-		        }
-         });
-}
+				$(document).ready(function() {
+					$.ajax({
+						type : "GET",
+						url : "GetDataServlet",
+						success : function(responseText) {
+							$('#responseNote').html(responseText);
+						}
+					});
+					
+				function edit(id){
+					$.ajax({
+						type: 'GET',
+						url: 'EditRowServlet',
+						data: {"id":id},
+						success: function(responseText){
+							obj = jQuery.parseJSON(responseText);
+							document.getElementById('username').value;
+							document.setElementById('category').value=obj.category;
+							document.setElementById('value').value=obj.value;
+							document.setElementById('datepicker').value=obj.date;
+							document.setElementById('Id_hidden').value=obj.ID;
+						}
+					});
+				}
+				function add(){
+					var username=document.getElementById("username").value;
+					var category = document.getElementById("category").value;
+					var value = document.getElementById("value").value;
+					var date = document.getElementById("datepicker").value;
+					var id= document.getElementById('Id_hidden').value;
+					$.ajax({
+					    type: 'POST',
+					    url : 'AddOrEditServlet',
+					    data: {"username" : u, "category": c, "value": v, "date": d, "id":id },
+					    success: function(responseText){
+					    	alert(responseText);
+					    	document.getElementById('username').value=null;
+					    	document.getElementById('category').value=null;
+					    	document.getElementById('value').value=null;
+					    	document.getElementById('datepicker').value=null;
+					    	document.getElementById('Id_hidden').value=null;
+					    	location.reload();
+					    }
+					    
+					
+						});
+					
+				}
+	
 </script>
+
 </head>
 
 <body>
@@ -53,8 +93,8 @@ function alert_me()
 
     	<div class="sidebar-wrapper">
             <div class="logo">
-                <a href="index.html" class="simple-text">
-                    <%=session.getAttribute("username") %>>
+                <a href="index.html" class="simple-text" >
+                    <%= session.getAttribute("username") %>
                 </a>
             </div>
 
@@ -65,7 +105,7 @@ function alert_me()
                         <p><font size="2" color= "black">Dashboard</font></p>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="DailyExp.jsp">
                         <i class="ti-user"></i>
                         <p><font size="2" color= "black">Daily Expenses</font></p>
@@ -84,7 +124,7 @@ function alert_me()
                         <p><font size="2" color= "black">Contact Advisor</font></p>
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="Exppro.jsp">
                         <i class="ti-map"></i>
                         <p><font size="2" color= "black">Set Financial Goal</font></p>
@@ -125,15 +165,36 @@ function alert_me()
 				</div>
 			</div>
 		</nav>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-sm-8 my-auto">
+					<canvas id="TotalOver" width="100" height="50"></canvas>
+				</div>
+				<div class="col-sm-4 text-center my-auto">
+					<div class="h4 mb-0 text-primary" id="total"></div>
+					<div class="large text-muted">Total</div>
+				</div>
+			</div>
+		</div>
 <div class="form-style-8">
-  <h2><font size="5" color= "white">Set Your Financial Budget</font></h2>
+  <h2>Daily Expense</h2>
   <form>
-    <b><font size="5" color= "black">Username :</font></b><input type="text" name="username"  disabled id="username" value= " <%= session.getAttribute("username") %>" placeholder="Full Name" />
-     <b><font size="5" color= "black">Expense Budget :</font></b><input type="text"  name="budget_value" id="budget" placeholder="Budget">
-    <input type="button" value="Set Financial Goal" onclick="alert_me()" />
+    <b>Username:</b> <input class="effect-1" type="text" name="username" disabled
+					id="username" value= "<%= session.getAttribute("username") %>"
+					 />
+   <b>Expense Category:</b> <select id="category">
+					<option value="Grocery">Grocery</option>
+					<option value="Home Utilities">Home Utilities</option>
+					<option value="Miscellaneous">Miscellaneous</option>
+				</select>
+    <b>Expense Date: </b><input  type="text" name="date" id="datepicker" placeholder="Expense Date">
+    <b>Expense Value :</b><input type="text"  name="value" id="value" placeholder="Expense Value">
+    <br>
+    <input type="hidden" id="Id_hidden"/>
+    <input type="button" value="Add" onclick="add()" />
   </form>
 </div>
-</div>
+	<div id="responseNote"></div>
+
 </body>
 </html>
-

@@ -42,7 +42,7 @@ public class ExpenseServlet extends HttpServlet {
 		Connection conn=null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/MgmtSystemDB", "root", "root");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/NewExpense", "root", "root");
 			
 			String Uname = request.getParameter("Uname");
 			String Bgoal = request.getParameter("budget");

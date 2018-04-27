@@ -395,7 +395,9 @@ hr {
   z-index: 2;
   float: right;
   width: calc(100% - 260px);
-  min-height: 100%; }
+  min-height: 100%;
+  background-size:cover;
+   }
   .main-panel > .content {
     padding: 30px 15px;
     min-height: calc(100% - 123px); }

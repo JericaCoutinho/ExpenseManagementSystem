@@ -1,10 +1,12 @@
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,27 +33,38 @@ public class DailyExpServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
-		Connection conn = null;
+		Connection conn = null; int num=0, ID=0;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			try {
-				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/MgmtSystemDB", "root", "root");
-				String Uname = request.getParameter("username");
-				String category = request.getParameter("category");
-				String value = request.getParameter("value");
-				String date = request.getParameter("date");
-				String query5 = "insert into Expense(username, expense_type, expense_category, expense_value, expense_date) values (?,?,?,?,?)";
-				PreparedStatement stmt3 = conn.prepareStatement(query5);
-				stmt3.setString(1, Uname);
-				stmt3.setString(2, "Daily Expense");
-				stmt3.setString(3, category);
-				stmt3.setString(4, value);
-				stmt3.setString(5, date);
-				stmt3.executeUpdate();
+				String uname=request.getParameter("username");
+				String category=request.getParameter("category");
+				String expense_type="Daily expense";
+				String expense_value=request.getParameter("value");
+				String expense_date=request.getParameter("date");
+				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/NewExpense", "root", "root");
+				Statement sqlstmt=conn.createStatement();
+				PrintWriter out = response.getWriter();
+				String s="";
+				//System.out.println(request.getParameter("id"));
+				if(!request.getParameter("id").equals("")) {
+					s = "update Expense set expense_category='"+request.getParameter("category")+"', expense_value='"+request.getParameter("value")+"', expense_date='"+request.getParameter("date")+"' "
+							+ "where expense_id='"+request.getParameter("id")+"'";
+					sqlstmt.executeUpdate(s);
+					out.println("Updated Successfully!");
+				}
+				else {
+					s = "insert into Expense(username,expense_desc,expense_type, expense_category, expense_value, expense_date,recurring_type) values ('"+uname+"','One time bill','Daily Expense','"+category+"','"+expense_value+"','"+expense_date+"','Once')";
+					sqlstmt.executeUpdate(s);
+					out.println("Added Succesfully");
+				}
+
+							
 				conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

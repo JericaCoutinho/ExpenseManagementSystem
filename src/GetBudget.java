@@ -12,19 +12,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class GetBudget
  */
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/GetBudget")
+public class GetBudget extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public GetBudget() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,29 +34,34 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		Connection conn = null;
+		Connection conn=null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/NewExpense", "root", "root");
-			
-			String Uname = request.getParameter("username");
-			System.out.println(Uname);
-			String pass = request.getParameter("password");
-			
-			String sql = "select * from Customer where username=? and pass=?";
-			PreparedStatement s = conn.prepareStatement(sql);
-			s.setString(1, Uname);
-			s.setString(2, pass);
-			ResultSet rs = s.executeQuery();
-			if(rs.next()) {
-				HttpSession session = request.getSession();
-				session.setAttribute("username", Uname);
-				System.out.println(Uname);
+				String uname=request.getParameter("username");
+				String Bgoal= request.getParameter("Budget");
 				
-				response.sendRedirect("DailyExp.html");
-			}
+				String SQL= "Select * from Budget";
+				System.out.println(uname);
+				PreparedStatement pstmt= conn.prepareStatement(SQL);
+				pstmt.setString(1, uname);
+				pstmt.setString(2, Bgoal);
+				ResultSet rs = pstmt.executeQuery();
+				//ResultSet rs = pstmt.getResultSet();
+				while(rs.next())
+				{
+					uname = rs.getString("username");
+					Bgoal = rs.getString("Budget");
+					
+					//System.out.println(uname);
+					//System.out.println(Bgoal);
+					
+				}
+				//if(request.)
+				response.getWriter();
+				conn.close();
 			
-			conn.close();
+		    
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -65,6 +69,7 @@ public class LoginServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 
 	/**
@@ -72,7 +77,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		//doGet(request, response);
 	}
 
 }

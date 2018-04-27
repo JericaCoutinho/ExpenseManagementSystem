@@ -12,7 +12,7 @@
 
 	<%
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/MgmtSystemDB", "root", "root");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/NewExpense", "root", "root");
 		Statement s = conn.createStatement();
 		ResultSet r = s.executeQuery("select * from Customer;");
 

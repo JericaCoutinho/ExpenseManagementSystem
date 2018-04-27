@@ -1,3 +1,9 @@
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page import="edu.albany.se.team_project.doa.CustomerDAO"%>
+<%@ page import="edu.albany.se.team_project.model.Customer"%>
+
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -13,10 +19,7 @@
 	   {
 	      session.setAttribute("message",null);
 	         response.sendRedirect("login.jsp");
-		    }
-        
-
-   //out.println("Welcome "+name+", Welcome Advisor, to ... well, whatever this page is.");
+		    }        
  %>
  <!doctype html>
 <html lang="en">
@@ -26,7 +29,7 @@
 	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Paper Dashboard by Creative Tim</title>
+	<title>Financier Home</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -65,34 +68,34 @@
 
     	<div class="sidebar-wrapper">
             <div class="logo">
-                <a href="http://www.creative-tim.com" class="simple-text">
-                   
+                 <a href="index.html" class="simple-text">
+                    <%=session.getAttribute("username") %>
                 </a>
             </div>
 
             <ul class="nav">
-                <li class="active">
-                    <a href="dashboard.jsp">
-                        <i class="ti-agenda"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
+            <li><a href="advisorHome.jsp"> <i class="ti-panel"></i>
+						<p>Dashboard</p>
+				</a></li>
                 <li>
                     <a href="table.jsp">
                         <i class="ti-email"></i>
                         <p>Messages</p>
                     </a>
                 </li>
+                <li class="active"><a href="Financier_Customer_List.jsp"> <i
+						class="ti-pencil-alt2"></i>
+						<p>List of Customers</p>
+				</a></li>
                 <li>
                     <a href="typography.jsp">
                         <i class="ti-panel"></i>
                         <p>Settings</p>
                     </a>
-                </li>
+                </li> 
             </ul>
     	</div>
     </div>
-
     <div class="main-panel">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
@@ -179,7 +182,27 @@
     </div>
 </div>
 
-
+		
+<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+		<script>
+		$(document).ready(function(){
+    $('#btnGetValue').click(function() {
+        alert($('input[name=radioName]:checked', '#myForm').val());
+    });
+});		
+		</script>
 </body>
 
     <!--   Core JS Files   -->

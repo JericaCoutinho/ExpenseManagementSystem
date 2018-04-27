@@ -55,37 +55,32 @@
                 <li class="active">
                     <a href="home.jsp">
                         <i class="ti-panel"></i>
-                        <p>Dashboard</p>
+                        <p><font size="2" color= "black">Dashboard</font></p>
                     </a>
                 </li>
                 <li>
                     <a href="DailyExp.jsp">
                         <i class="ti-user"></i>
-                        <p>Daily Expenses</p>
+                        <p><font size="2" color= "black">Daily Expenses</font></p>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="RecurringExpense.jsp">
                         <i class="ti-view-list-alt"></i>
-                        <p>Recurring Expenses</p>
+                        <p><font size="2" color= "black">Recurring Expenses</font></p>
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class="ti-text"></i>
-                        <p>Groups</p>
-                    </a>
-                </li>
+               
                 <li>
                     <a href="Finance_Advisor.jsp">
                         <i class="ti-pencil-alt2"></i>
-                        <p>Contact Advisor</p>
+                        <p><font size="2" color= "black">Contact Advisor</font></p>
                     </a>
                 </li>
                 <li>
                     <a href="Exppro.jsp">
                         <i class="ti-map"></i>
-                        <p>Set Financial Goal</p>
+                        <p><font size="2" color= "black">Set Financial Goal</font></p>
                     </a>
                 </li>
             </ul>
@@ -102,7 +97,7 @@
                         <span class="icon-bar bar2"></span>
                         <span class="icon-bar bar3"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Dashboard</a>
+                    <a class="navbar-brand" href="#"><font size="5" color= "black">Dashboard</font></a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -110,7 +105,7 @@
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="ti-bell"></i>
                                     <p class="notification">5</p>
-									<p>Notifications</p>
+									<p><font size="2" color= "black">Notifications</font></p>
 									<b class="caret"></b>
                               </a>
                               <ul class="dropdown-menu">
@@ -124,7 +119,7 @@
 						<li>
                             <a href="logout.jsp">
 								<i class="ti-settings"></i>
-								<p>Logout</p>
+								<p><font size="2" color= "black">Logout</font></p>
                             </a>
                         </li>
                     </ul>

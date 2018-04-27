@@ -53,15 +53,66 @@ th {
     background-color:#34CACA;;
     color: white;
 }
+main-panel {
+bakground-attachment: fixed;
+}
+.styling{
+}
 </style>
 <script>	
 $( function() {
     $( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
   } );
 $( document ).ready(function() {
-	var p = '<%= session.getAttribute("username") %>';
+	var p = '<%= session.getAttribute("username") %>' ;
+	var budget;
+	
 	console.log(p);
     console.log( "ready!" );
+    $.ajax({
+			url : "NotificationServlet",
+			data : {"username" : p},
+			type : "get",
+			success : function(data) {
+				$("#response").text(data);
+			}
+		}); 
+    $.ajax({
+		url : "SumCount",
+		data : {"username" : p},
+		type : "post",
+		success : function(data) {
+			$("#total").html(data);
+			var total = data;
+		}
+	});
+    var notification;
+    $.ajax({
+		url : "GetBudget",
+		data : {"username" : p, "Budget": budget},
+		type : "post",
+		success : function(data) {
+			//$("#budget").html(data);
+			budget = data;
+			if(total>budget)
+		    {
+		 		alert("You have exceeded your Financial goal limit!");
+		 		notification ="You have exceeded your Financial goal limit!";
+		 		alert(notification)
+		 	    $.ajax({
+		 			url : "NotificationServlet",
+		 			data : {"username" : p, "notification":notification},
+		 			type : "post",
+		 			success : function(data) {
+		 				//$("#budget").html(data);
+		 				console.log("saved");
+		 			}
+		 		}); 
+		    }
+		}
+	}); 
+    
+    
     $.ajax({ 
 		url: "GetDataServlet",
 		data: {"username" : p},
@@ -73,6 +124,23 @@ $( document ).ready(function() {
 		});
 });
 
+	function edit(id){
+		$.ajax({
+			type: 'GET',
+			url: 'EditRowServlet',
+			data: {"id":id},
+			success: function(responseText){
+				
+				obj = jQuery.parseJSON(responseText);
+				document.getElementById('username').value;
+				document.getElementById('category').value=obj.category;
+				document.getElementById('value').value=obj.expense_value;
+				document.getElementById('datepicker').value=obj.expense_date;
+				document.getElementById('Id_hidden').value=obj.expense_id;
+			}
+		});
+	}
+
  function myfunction()
  {
 	 var p = document.getElementById("username").value;
@@ -82,15 +150,20 @@ $( document ).ready(function() {
 	 //var month= d.getMonth()+1;
 	 //var year = d.getFullYear();
 	 var d = document.getElementById("datepicker").value;
+	 var id = document.getElementById("Id_hidden").value;
 	 var s = document.getElementById("value").value;
+	 alert(id);
 	 $.ajax(
-			{
+			{			
 				url: "DailyExpServlet",
-				data: {"username" : p, "category" : q,"date" : d, "value" : s},
+				data: {"username" : p, "category" : q,"date" : d, "value" : s , "id" : id},
 				type : "post",
 				success : function(data)
 				{
-					alert("Daily Expense added!");
+					alert(data);
+					document.getElementById('Id_hidden').value=null;
+					document.getElementById('value').value=null;
+					document.getElementById('datepicker').value=null;
 					$("#Response").load("#Response");
 					//successmessage = 'Data was succesfully captured';
 	                //$("label#successmessage").text(successmessage);
@@ -107,8 +180,7 @@ $( document ).ready(function() {
 
     	<div class="sidebar-wrapper">
             <div class="logo">
-                <a href="index.html" class="simple-text">
-                    <%=session.getAttribute("username") %>>
+                <a href="index.html" class="simple-text" > <%= session.getAttribute("username") %> 
                 </a>
             </div>
 
@@ -116,59 +188,104 @@ $( document ).ready(function() {
                 <li >
                     <a href="home.jsp">
                         <i class="ti-panel"></i>
-                        <p>Dashboard</p>
+                        <p><font size="2" color= "black">Dashboard</font></p>
                     </a>
                 </li>
                 <li class="active">
                     <a href="DailyExp.jsp">
                         <i class="ti-user"></i>
-                        <p>Daily Expenses</p>
+                        <p><font size="2" color= "black">Daily Expenses</font></p>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="RecurringExpense.jsp">
                         <i class="ti-view-list-alt"></i>
-                        <p>Recurring Expenses</p>
+                        <p><font size="2" color= "black">Recurring Expenses</font></p>
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class="ti-text"></i>
-                        <p>Groups</p>
-                    </a>
-                </li>
+                
                 <li>
                     <a href="Finance_Advisor.jsp">
                         <i class="ti-pencil-alt2"></i>
-                        <p>Contact Advisor</p>
+                        <p><font size="2" color= "black">Contact Advisor</font></p>
                     </a>
                 </li>
                 <li>
                     <a href="Exppro.jsp">
                         <i class="ti-map"></i>
-                        <p>Set Financial Goal</p>
+                        <p><font size="2" color= "black">Set Financial Goal</font></p>
                     </a>
                 </li>
             </ul>
     	</div>
     </div>
+    <div class="main-panel">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar bar1"></span> <span class="icon-bar bar2"></span>
+						<span class="icon-bar bar3"></span>
+					</button>
+					<a class="navbar-brand" href="#"><font size="5" color= "black"><b>Dashboard</b></font></a>
+				</div>
+				<div class="collapse navbar-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="ti-bell"></i>
+                                    <p class="notification">5</p>
+									<p><font size="3" color= "black"><b>Notifications</b></font></p>
+									<b class="caret"></b>
+                              </a>
+                              <ul class="dropdown-menu">
+                                <li><a href="#">Notification 1</a></li>
+                                <li><a href="#">Notification 2</a></li>
+                                <li><a href="#">Notification 3</a></li>
+                                <li><a href="#">Notification 4</a></li>
+                                <li><a href="#">Another notification</a></li>
+                              </ul>
+                        </li>
+						<li><a href="logout.jsp"> <i class="ti-settings"></i>
+								<p><font size="3" color= "black"><b>Logout</b></font></p>
+						</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	<div style="align:centre;font-size:50px"><a href="#" id="response">Notification </a></div>
+    <div class="card-body">
+			<div class="row">
+				<div class="col-sm-8 my-auto">
+					<canvas id="TotalOver" width="100" height="50"></canvas>
+				</div>
+				<div class="col-sm-4 text-center my-auto">
+					<div class="h4 mb-0 text-primary" id="total"></div>
+					<div class="large text-muted"><font size="5" color="red"><b>TOTAL</b></font></div>
+				</div>
+			</div>
+		</div>
 <div class="form-style-8">
-  <h2>Daily Expense</h2>
+  <h2><font color="white">Daily Expense</font></h2>
   <form>
-    <b>Username:</b> <input class="effect-1" type="text" name="username" disabled
-					id="username" value= " <%= session.getAttribute("username") %>" 
+    <b><font size="5" color= "black"> Username:</b> </font><input class="effect-1" type="text" name="username" disabled
+					id="username" value= "<%= session.getAttribute("username") %>" 
 					 />
-   <b>Expense Category:</b> <select id="category">
+   <b><font size="5" color= "black">Expense Category:</b></font> <select id="category">
 					<option value="Grocery">Grocery</option>
 					<option value="Home Utilities">Home Utilities</option>
 					<option value="Miscellaneous">Miscellaneous</option>
 				</select>
-    <b>Expense Date: </b><input  type="text" name="date" id="datepicker" placeholder="Expense Date">
-    <b>Expense Value :</b><input type="text"  name="value" id="value" placeholder="Expense Value">
+    <b><font size="5" color= "black">Expense Date: </b></font><input  type="text" name="date" id="datepicker" placeholder="Expense Date">
+    <b><font size="5" color= "black">Expense Value :</b></font><input type="text"  name="value" id="value" placeholder="Expense Value">
+    <input type="hidden" id="Id_hidden"/>
     <input type="button" value="Add" onclick="myfunction()" />
   </form>
 </div>
 	<div id="Response"></div>
+	<div id="savemessage"></div>
+	</div>
 </body>
 </html>
 

@@ -5,6 +5,14 @@ public class Advisor {
 	private String l_name;
 	private String email;
 	private String biography;
+	private String username;
+	
+	public String getusername() {
+		return username;
+	}
+	public void setusername(String username) {
+		this.username = username;
+	}
 	public String getF_name() {
 		return f_name;
 	}
