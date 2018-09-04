@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+@import url(CSS.css);
+
+#warning {
+	color: red;
+}
+
+#bio {
+	display: none;
+}
+
+.loginpage {
+	width: 360px;
+	padding: 8% 0 0;
+	margin: auto;
+}
+
+.form {
+	position: relative;
+	background: #FFFFFF;
+	max-width: 360px;
+	margin: 0 auto 100px;
+	padding: 45px;
+	text-align: center;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0
+		rgba(0, 0, 0, 0.24);
+}
+
+.form input, #text {
+	font-family: "Roboto", sans-serif;
+	outline: 0;
+	background: #f2f2f2;
+	width: 100%;
+	border: 0;
+	margin: 0 0 15px;
+	padding: 15px;
+	box-sizing: border-box;
+	font-size: 14px;
+}
+
+#button1 {
+	font-family: "Roboto", sans-serif;
+	outline: 0;
+	background: #4CAF50;
+	width: 100%;
+	border: 0;
+	padding: 15px;
+	color: #FFFFFF;
+	font-size: 14px;
+}
+#button2 {
+	font-family: "Roboto", sans-serif;
+	outline: 0;
+	background: #4CAF50;
+	width: 100%;
+	border: 0;
+	padding: 15px;
+	color: #FFFFFF;
+	font-size: 14px;
+}
+
+.form #button:hover, #button:active, #button:focus {
+	background: #43A047;
+}
+
+.form .message {
+	margin: 15px 0 0;
+	color: #b3b3b3;
+	font-size: 12px;
+}
+
+.form .message a {
+	color: #4CAF50;
+	text-decoration: none;
+}
+
+p {
+	font-family: "Roboto", sans-serif;
+	outline: 0;
+	background: #f2f2f2;
+	width: 100%;
+	border: 0;
+	margin: 0 0 15px;
+	padding: 15px;
+	box-sizing: border-box;
+	font-size: 14px;
+}
+
+#warning {
+	color: red;
+}
+
+#bio {
+	display: none;
+}
+body {
+	background: #76b852;
+	font-family: "Roboto", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Poppins">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<body>
+	<div class="w3-top">
+		<div class="w3-bar w3-card" id="myNavbar">
+			<a href="login.jsp" class="w3-bar-item w3-right w3-button">Already a User? Login</a>
+			<a href="rg.jsp" class="w3-bar-item w3-right w3-button" >Register</a>
+		</div>
+	</div>
+	<header class="w3-display-container w3-content w3-hide-small"
+		style="max-width: 1500px">
+		<img class="w3-image" src="Expense.jpg" width="1500" height="500">
+		<div class="w3-display-left w3-text-white" style="padding: 48px">
+			<span class="w3-jumbo w3-hide-small">Expense Management System</span><br>
+			<span class="w3-xxlarge w3-hide-large w3-hide-medium">Expense
+				Management System</span><br> <span class="w3-large">Manage your
+				expenses from anywhere and go paperless</span>
+		</div>
+		<div class="w3-display-middle">
+			<div class="w3-container">
+
+				<div id="loginpage">
+					<div id="loginform" class="w3-modal">
+						<div class="w3-modal-content w3-card-4 w3-animate-zoom"
+							style="max-width: 300px">
+							<form class="loginform" action="LoginValidation" method="post">
+
+								<span onclick="closelogin();"
+									class="w3-button w3-xlarge w3-transparent w3-display-topright"
+									title="Close Modal">x</span> <input type="text"
+									placeholder="Username" name="username"></input> <input
+									type="password" placeholder="Password" name="password"></input>
+								<input type="submit" value="Login" id="button1">
+								<p class="message">
+									Not registered? <a href="#"
+										onclick="closelogin(); openregister();">Create an account</a>
+								</p>
+
+							</form>
+						</div>
+					</div>
+
+					<div id="form">
+						<div id="registerform" class="w3-modal">
+							<div class="w3-modal-content w3-card-4 w3-animate-zoom"
+								style="max-width: 300px">
+								<form class="registerform" action="register.jsp" method="post">
+									<span onclick="closeregister();"
+										class="w3-button w3-xlarge w3-transparent w3-display-topright"
+										title="Close Modal">x</span> <input type="text"
+										placeholder="First Name" name="f_name" required></input> <input
+										type="text" placeholder="Last Name" name="l_name" required></input>
+									<input type="text" placeholder="Username" name="username"
+										required></input> <input type="text" placeholder="Email"
+										name="email" required></input> <input type="password"
+										placeholder="Create Password" name="password" required></input>
+									<input type="password" placeholder="Reconfirm Password"
+										name="confirm" required></input>
+									<p>
+										Are you a Financial Advisor?<br>
+										<br> <input id="check" type="checkbox" name="Type"
+											value="Advisor" onclick="bioAppear();">
+									</p>
+									<span id="bio">Biography<br> <textarea id="text"
+											name="bio"></textarea>
+									</span> <br> <input type="submit" value="Register" id="button2">
+									<p class="message">
+										Already registered? <a href="#"
+											onclick="closeregister(); openlogin();">Sign In</a>
+									</p>
+
+								</form>
+							</div>
+						</div>
+					</div>
+
+
+
+
+
+				</div>
+			</div>
+	</header>
+	<footer class="w3-center w3-black w3-padding-64">
+		<div class="w3-small w3-section"></div>
+		<p>Done by TEAM-4</p>
+	</footer>
+
+</body>
+<script type="text/javascript">
+  function closeregister(){
+    document.getElementById('registerform').style.display='none';
+  }
+  function openlogin(){
+    document.getElementById('loginform').style.display='block';
+  }
+   function closelogin(){
+    document.getElementById('loginform').style.display='none';
+  }
+  function openregister(){
+    document.getElementById('registerform').style.display='block';
+  }
+  function bioAppear()
+  {
+  var box=document.getElementById("check");
+  var bio=document.getElementById("bio");
+  if(box.checked)
+  bio.style.display="initial";
+  else
+  bio.style.display="none";
+  }
+      
+  </script>
+
+</html>
