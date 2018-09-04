@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Financial goal
+</title><script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+<script>
+function alert_me()
+{
+	var s = document.getElementById("budget").value;
+	var d = document.getElementById("username").value;
+	$.ajax({
+		url:"ExpenseServlet",
+	    data:{"budget" : s,"Uname" : d},
+		type: "post",
+		success: function(data)
+		        {
+					alert("Successfully goal is set!");
+		        }
+         });
+}
+</script>
+</head>
+<body>
+Enter username: <input type="text" name="username" id="username"/>
+<br> Enter the financial budget: 
+		<input type="text" name="budget_value" id="budget"/>
+		<input type="button" value="set" onclick="alert_me()"/>
+
+</body>
+</html>
